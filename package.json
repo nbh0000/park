@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "fs": "^0.0.1-security",
+    "javascript-stringify": "^2.1.0",
+    "mysql": "^2.18.1",
+    "node-stringify": "^0.2.1",
+    "nodemon": "^2.0.16",
+    "path": "^0.12.7",
+    "pg": "^8.7.3",
+    "sql-template-strings": "^2.2.2",
+    "stringify": "^5.2.0"
+  }
+}
