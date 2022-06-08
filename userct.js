@@ -100,16 +100,21 @@ app.post('/user/parkinfo', function (req, res) {
             }
         }
         var month=[];
-        for (i=0;i<5;i++)
+        /*for (i=0;i<5;i++)
         {
                 month[0]={'parkname':result[i].parkname,
                 'parkx':result[i].parkx,
                 'parky':result[i].parky,
                 'parkempty':result[i].parkempty,
                 'parkspace':result[i].parkspace};
-        }
+        }*/
         res.json(
-            month
-        )
+            {
+            'parkname':result[i].parkname,
+                'parkx':result[i].parkx,
+                'parky':result[i].parky,
+                'parkempty':result[i].parkempty,
+                'parkspace':result[i].parkspace
+            })
     })
 });
