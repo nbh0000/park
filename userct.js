@@ -35,7 +35,7 @@ app.post('/user/join', function (req, res) {
             console.log(err);
         } else {
             resultCode = 200;
-            message = '회원가입에 성공했습니다.';
+            message = '회원가입에 성공했습니다!';
         }
 
         res.json({
