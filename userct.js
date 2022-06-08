@@ -86,7 +86,7 @@ app.post('/user/parkinfo', function (req, res) {
         let json;
         var resultCode = 404;
         var message = 'An error has occurred';
-        var i;
+       
         if (err) {
             console.log(err);
         } else {
@@ -96,24 +96,24 @@ app.post('/user/parkinfo', function (req, res) {
             } else {
                 resultCode = 200;
                 message = 'park name:' + parknames +' search success';
-                
             }
         }
         var month=[];
-        var pk = result[0].parkname;
-        var parkx,parky,parkempty,parkspace;
         
-        /*for (i=0;i<5;i++)
+        for (var i=0;i<5;i++)
         {
                 month[i]={'parkname':result[i].parkname,
                 'parkx':result[i].parkx,
                 'parky':result[i].parky,
                 'parkempty':result[i].parkempty,
                 'parkspace':result[i].parkspace};
-        }*/
+        }
+
+        
         res.json(
             {
-                'parkname':pk
+                'code':resultCode,
+                month
             })
     })
 });
