@@ -20,22 +20,22 @@ var connection = mysql.createConnection({
 
 app.post('/user/join', function (req, res) {
     console.log(req.body);
-    var userid = req.body.userid;
-    var useremail = req.body.useremail;
-    var userpassword = req.body.userpassword;
+    var userid = req.body.id;
+    var useremail = req.body.email;
+    var userpassword = req.body.password;
     const {id,email,password}=req.body;
     const sql =`INSERT INTO users(id,email,password) VALUES('${id}','${email}','${password}');`
     var params = [userid, useremail, userpassword];
 
     connection.query(sql, params, function (err, result) {
         var resultCode = 404;
-        var message = '에러가 발생했습니다';
+        var message = 'An error has occurred!';
 
         if (err) {
             console.log(err);
         } else {
             resultCode = 200;
-            message = '회원가입에 성공했습니다!';
+            message = 'successed sign up!';
         }
 
         res.json({
@@ -52,20 +52,20 @@ app.post('/user/login', function (req, res) {
 
     connection.query(sql, userid, function (err, result) {
         var resultCode = 404;
-        var message = '에러가 발생했습니다';
+        var message = 'An error has occurred';
 
         if (err) {
             console.log(err);
         } else {
             if (result.length === 0) {
-                resultCode = 204;
-                message = '존재하지 않는 계정입니다!';
+                resultCode = 205;
+                message = 'not existent id';
             } else if (userpassword !== result[0].password) {
                 resultCode = 204;
-                message = '비밀번호가 틀렸습니다!';
+                message = 'password is wrong'+userpassword+"앞유저패스워드 뒤 result머시기"+result[0].password;
             } else {
                 resultCode = 200;
-                message = '로그인 성공! ' + result[0].id + '님 환영합니다!';
+                message = 'login successed welcome : ' + result[0].id;
             }
         }
 
@@ -85,17 +85,17 @@ app.post('/user/parkinfo', function (req, res) {
     connection.query(sql, function (err, result) {
         let json;
         var resultCode = 404;
-        var message = '에러가 발생했습니다';
+        var message = 'An error has occurred';
         var i;
         if (err) {
             console.log(err);
         } else {
             if (result.length === 0) {
                 resultCode = 204;
-                message = 'X';
+                message = 'An error has occurred';
             } else {
                 resultCode = 200;
-                message = '주차장 이름:' + parkname +'검색성공';
+                message = 'park name :' + parkname +' search success';
                 
             }
         }
