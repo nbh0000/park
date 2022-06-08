@@ -78,7 +78,7 @@ app.post('/user/login', function (req, res) {
 
 
 app.post('/user/parkinfo', function (req, res) {
-    var parkname = req.body.parkname;
+    var parknames = req.body.parkname;
 
     var sql = 'select * from park';
 
@@ -95,12 +95,14 @@ app.post('/user/parkinfo', function (req, res) {
                 message = 'An error has occurred';
             } else {
                 resultCode = 200;
-                message = 'park name:' + parkname +' search success';
+                message = 'park name:' + parknames +' search success';
                 
             }
         }
         var month=[];
-        var parkname = result[0].parkname;
+        var pk = result[0].parkname;
+        var parkx,parky,parkempty,parkspace;
+        
         /*for (i=0;i<5;i++)
         {
                 month[i]={'parkname':result[i].parkname,
@@ -111,7 +113,7 @@ app.post('/user/parkinfo', function (req, res) {
         }*/
         res.json(
             {
-                'parkname':parkname
+                'parkname':pk
             })
     })
 });
