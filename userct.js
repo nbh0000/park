@@ -6,7 +6,7 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.listen(3000, 'localhost', function () {
+app.listen(3000, '0.0.0.0', function () {
     console.log('Server is connected');
 });
 
