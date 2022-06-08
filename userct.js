@@ -112,7 +112,6 @@ app.post('/user/parkinfo', function (req, res) {
         
         res.json(
             {
-                'code':resultCode,
                 month
             })
     })
