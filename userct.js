@@ -102,7 +102,7 @@ app.post('/user/parkinfo', function (req, res) {
         var month=[];
         for (i=0;i<5;i++)
         {
-                month[i]={'parkname':result[i].parkname,
+                month[0]={'parkname':result[i].parkname,
                 'parkx':result[i].parkx,
                 'parky':result[i].parky,
                 'parkempty':result[i].parkempty,
