@@ -95,7 +95,7 @@ app.post('/user/parkinfo', function (req, res) {
                 message = 'An error has occurred';
             } else {
                 resultCode = 200;
-                message = 'park name :' + parkname +' search success';
+                message = 'park name:' + parkname +' search success';
                 
             }
         }
@@ -106,7 +106,7 @@ app.post('/user/parkinfo', function (req, res) {
                 'parkx':result[i].parkx,
                 'parky':result[i].parky,
                 'parkempty':result[i].parkempty,
-                'parkplace':result[i].parkplace};
+                'parkspace':result[i].parkspace};
         }
         res.json(
             month
