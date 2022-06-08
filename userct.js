@@ -110,11 +110,11 @@ app.post('/user/parkinfo', function (req, res) {
         }*/
         res.json(
             {
-            'parkname':result[i].parkname,
-                'parkx':result[i].parkx,
-                'parky':result[i].parky,
-                'parkempty':result[i].parkempty,
-                'parkspace':result[i].parkspace
+                'parkname':result[0].parkname,
+                'parkx':result[0].parkx,
+                'parky':result[0].parky,
+                'parkempty':result[0].parkempty,
+                'parkspace':result[0].parkspace
             })
     })
 });
