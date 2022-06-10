@@ -108,11 +108,67 @@ app.post('/user/parkinfo', function (req, res) {
                 'parkempty':result[i].parkempty,
                 'parkspace':result[i].parkspace};
         }
-
-        
         res.json(
             {
                 month
             })
     })
+});
+
+app.post('/user/parkinglotspace', function (req, res) {
+    var parkname = req.body.parkname;
+
+    var sql = 'select * from ParkingLotSpace where parkname = ?';
+
+    connection.query(sql, parkname, function (err, result) {
+        var resultCode = 404;
+        var message = 'An error has occurred';
+
+        if (err) {
+            console.log(err);
+        } else {
+            if (result.length === 0) {
+                resultCode = 205;
+                message = 'not existent parkname';
+            } 
+            else {
+                resultCode = 200;
+               
+            }
+        }
+
+        res.json({
+            'is_park':result[0].is_park,
+            'p_number':result[0].P_number,
+            'Reserv':result[0].Reserv,
+            'code': resultCode
+        });
+    })
+});
+
+app.post('/user/save_parkinfo', function (req, res) {
+    console.log(req.body);
+    var id = req.body.id;
+    var parkname = req.body.parkname;
+    var P_number = req.body.P_number;
+    var date = req.body.date;
+    const sql =`INSERT INTO parkInfo(id,parkname,P_number,date) VALUES('${id}','${parkname}','${P_number}','${date}');`
+    var params = [id,parkname,P_number,date];
+
+    connection.query(sql, params, function (err, result) {
+        var resultCode = 404;
+        var message = 'An error has occurred!';
+
+        if (err) {
+            console.log(err);
+        } else {
+            resultCode = 200;
+            message = 'parkinfo successed save!';
+        }
+
+        res.json({
+            'code': resultCode,
+            'message': message
+        });
+    });
 });
