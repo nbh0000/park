@@ -1,6 +1,8 @@
 var mysql = require('mysql');
 var express = require('express');
 var bodyParser = require('body-parser');
+const { sizeof } = require('sizeof');
+const { NEWDATE } = require('mysql/lib/protocol/constants/types');
 var app = express();
 
 app.use(bodyParser.json());
@@ -79,11 +81,9 @@ app.post('/user/login', function (req, res) {
 
 app.post('/user/parkinfo', function (req, res) {
     var parknames = req.body.parkname;
-
     var sql = 'select * from park';
-
     connection.query(sql, function (err, result) {
-        let json;
+        
         var resultCode = 404;
         var message = 'An error has occurred';
        
@@ -98,11 +98,12 @@ app.post('/user/parkinfo', function (req, res) {
                 message = 'park name:' + parknames +' search  success';
             }
         }
-        var month=[];
         
-        for (var i=0;i<5;i++)
+        var parking=[];
+        
+        for (var i=0;i<result.length;i++)
         {
-                month[i]={'parkname':result[i].parkname,
+            parking[i]={'parkname':result[i].parkname,
                 'parkx':result[i].parkx,
                 'parky':result[i].parky,
                 'parkempty':result[i].parkempty,
@@ -110,19 +111,19 @@ app.post('/user/parkinfo', function (req, res) {
         }
         res.json(
             {
-                month
+                parking
             })
     })
 });
 
 app.post('/user/parkinglotspace', function (req, res) {
-    var parkname = req.body.parkname;
-
+    var parkname=req.body.parkname;
     var sql = 'select * from ParkingLotSpace where parkname = ?';
 
     connection.query(sql, parkname, function (err, result) {
         var resultCode = 404;
         var message = 'An error has occurred';
+        
 
         if (err) {
             console.log(err);
@@ -136,22 +137,32 @@ app.post('/user/parkinglotspace', function (req, res) {
                
             }
         }
-
-        res.json({
-            'is_park':result[0].is_park,
-            'p_number':result[0].P_number,
-            'Reserv':result[0].Reserv,
-            'code': resultCode
-        });
+        let parkls=[];
+        
+        for (var i=0;i<result.length;i++)
+        {
+        parkls[i] = {
+            'is_park':result[i].is_park,
+            'p_number':result[i].P_number,
+            'Reserv':result[i].Reserv
+        }
+    }   
+        res.json(
+            parkls
+        );
     })
 });
 
 app.post('/user/save_parkinfo', function (req, res) {
-    console.log(req.body);
     var id = req.body.id;
     var parkname = req.body.parkname;
     var P_number = req.body.P_number;
-    var date = req.body.date;
+    var moment = require('moment');
+    require('moment-timezone');
+    moment.tz.setDefault("Asia/Seoul");
+    var date = moment().format('YYYY-MM-DD HH:mm:ss');
+    console.log(date);
+
     const sql =`INSERT INTO parkInfo(id,parkname,P_number,date) VALUES('${id}','${parkname}','${P_number}','${date}');`
     var params = [id,parkname,P_number,date];
 
@@ -171,4 +182,44 @@ app.post('/user/save_parkinfo', function (req, res) {
             'message': message
         });
     });
+});
+
+
+
+app.post('/user/parkinfo_user', function (req, res) {
+    var id=req.body.id;
+    var sql = 'select * from parkInfo where id = ?';
+    var moment = require('moment');
+    require('moment-timezone');
+    moment.tz.setDefault("Asia/Seoul");
+    
+
+    connection.query(sql, id, function (err, result) {
+        var resultCode = 404;
+        var message = 'An error has occurred';
+        if (err) {
+            console.log(err);
+        } else {
+            if (result.length === 0) {
+                resultCode = 205;
+                message = 'not existent id';
+            } 
+            else {
+                resultCode = 200;
+            }
+        }
+        let parkiu=[];
+        
+        for (var i=0;i<result.length;i++)
+        {
+        parkiu[i] = {
+            'parkname':result[i].parkname,
+            'p_number':result[i].P_number,
+            'date':moment(result[i].date).format('YYYY-MM-DD HH:mm:ss')
+        }
+    }   
+        res.json(
+            parkiu
+        );
+    })
 });
