@@ -224,7 +224,7 @@ app.post('/user/parkinfo_user', function (req, res) {
     })
 });
 
-app.post('/user/parkname', function (req, res) {
+app.post('/user/one_park_space', function (req, res) {
     var parkname=req.body.parkname;
     var sql = 'select * from park where parkname = ?';
 
