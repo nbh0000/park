@@ -223,3 +223,31 @@ app.post('/user/parkinfo_user', function (req, res) {
         );
     })
 });
+
+app.post('/user/parkname', function (req, res) {
+    var parkname=req.body.parkname;
+    var sql = 'select * from park where parkname = ?';
+
+    connection.query(sql, parkname, function (err, result) {
+        var resultCode = 404;
+        var message = 'An error has occurred';
+        
+
+        if (err) {
+            console.log(err);
+        } else {
+            if (result.length === 0) {
+                resultCode = 205;
+                message = 'not existent parkname';
+            } 
+            else {
+                resultCode = 200;
+               
+            }
+        }
+        res.json({
+            'parkempty':result[0].parkempty, 
+            'parkspace':result[0].parkspace
+    });
+    })
+});
