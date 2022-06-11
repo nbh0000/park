@@ -290,7 +290,7 @@ app.post('/user/save_parkinfo', function (req, res) {
             console.log(err);
         } else {
             resultCode = 200;
-            message = 'successed save!';
+            message = 'successed  save!';
         }
     });
 
