@@ -152,37 +152,6 @@ app.post('/user/parkinglotspace', function (req, res) {
     })
 });
 
-app.post('/user/save_parkinfo', function (req, res) {
-    var id = req.body.id;
-    var parkname = req.body.parkname;
-    var P_number = req.body.P_number;
-    var moment = require('moment');
-    require('moment-timezone');
-    moment.tz.setDefault("Asia/Seoul");
-    var date = moment().format('YYYY-MM-DD HH:mm:ss');
-    console.log(date);
-
-    const sql =`INSERT INTO parkInfo(id,parkname,P_number,date) VALUES('${id}','${parkname}','${P_number}','${date}');`
-    var params = [id,parkname,P_number,date];
-
-    connection.query(sql, params, function (err, result) {
-        var resultCode = 404;
-        var message = 'An error has occurred!';
-
-        if (err) {
-            console.log(err);
-        } else {
-            resultCode = 200;
-            message = 'parkinfo successed save!';
-        }
-
-        res.json({
-            'code': resultCode,
-            'message': message
-        });
-    });
-});
-
 
 
 app.post('/user/parkinfo_user', function (req, res) {
@@ -249,3 +218,112 @@ app.post('/user/one_park_space', function (req, res) {
     });
     })
 });
+
+app.post('/user/delete_parkinfo', function (req, res) {
+    var id = req.body.id;
+    var parkname = req.body.parkname;
+    var P_number = req.body.P_number;
+
+    var sql =`delete from parkInfo where id=? and parkname=? and P_number=?;`
+    var params = [id,parkname,P_number];
+
+    connection.query(sql, params, function (err, result) {
+        var resultCode = 404;
+        var message = 'An error has occurred!';
+
+        if (err) {
+            console.log(err);
+        } else {
+            resultCode = 200;
+            message = 'parkinfo successed save!';
+        }
+    });
+
+    sql = `UPDATE ParkingLotSpace SET Reserv=0 where parkname = ? and P_number=?`;
+    params = [parkname,P_number];
+    connection.query(sql, params, function (err, result) {
+        var resultCode = 404;
+        var message = 'An error has occurred!';
+
+        if (err) {
+            console.log(err);
+        } else {
+            resultCode = 200;
+            message = 'parkinfo successed deleted!';
+        }
+        res.json({
+            'code':resultCode,
+            'message':message
+        });
+
+    sql =`UPDATE park SET parkempty = parkempty+1 where parkname = ?`;
+    connection.query(sql, parkname, function (err, result) {
+        var resultCode = 404;
+        var message = 'An error has occurred!';
+        if (err) {
+            console.log(err);
+        } else {
+            resultCode = 200;
+        }
+    });
+
+    });
+});
+
+
+app.post('/user/save_parkinfo', function (req, res) {
+    var id = req.body.id;
+    var parkname = req.body.parkname;
+    var P_number = req.body.P_number;
+    var parkempty,p;
+    var moment = require('moment');
+    require('moment-timezone');
+    moment.tz.setDefault("Asia/Seoul");
+    var date = moment().format('YYYY-MM-DD HH:mm:ss');
+
+    sql =`UPDATE ParkingLotSpace SET Reserv=1 where parkname = ? and P_number=?`;
+    params = [parkname,P_number];
+    connection.query(sql, params, function (err, result) {
+        var resultCode = 404;
+        var message = 'An error has occurred!';
+        if (err) {
+            console.log(err);
+        } else {
+            resultCode = 200;
+            message = 'successed save!';
+        }
+    });
+
+     sql =`INSERT INTO parkInfo(id,parkname,P_number,date) VALUES('${id}','${parkname}','${P_number}','${date}');`
+     params = [id,parkname,P_number,date];
+
+    connection.query(sql, params, function (err, result) {
+        var resultCode = 404;
+        var message = 'An error has occurred!';
+
+        if (err) {
+            console.log(err);
+        } else {
+            resultCode = 200;
+            message = 'parkinfo successed save!';
+        }
+
+        res.json({
+            'code': resultCode,
+            'message': message
+        });
+    });
+
+    sql =`UPDATE park SET parkempty = parkempty-1 where parkname = ?`;
+    connection.query(sql, parkname, function (err, result) {
+        var resultCode = 404;
+        var message = 'An error has occurred!';
+        if (err) {
+            console.log(err);
+        } else {
+            resultCode = 200;
+        }
+    });
+
+});
+//예약1로바꾸기
