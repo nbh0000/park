@@ -126,7 +126,7 @@ app.post('/user/parkinglotspace', function (req, res) {
         
 
         if (err) {
-            console.log(err);
+            console.log(err); 
         } else {
             if (result.length === 0) {
                 resultCode = 205;
@@ -137,19 +137,18 @@ app.post('/user/parkinglotspace', function (req, res) {
                
             }
         }
-        let parkls=[];
+        var parkls=[];
         
         for (var i=0;i<result.length;i++)
         {
-        parkls[i] = {
-            'is_park':result[i].is_park,
-            'p_number':result[i].P_number,
-            'Reserv':result[i].Reserv
+            parkls[i]={'is_park':result[i].is_park,
+             'p_number':result[i].P_number,
+            'Reserv':result[i].Reserv};
         }
-    }   
         res.json(
-            parkls
-        );
+            {
+                parkls
+            })
     })
 });
 
@@ -208,19 +207,18 @@ app.post('/user/parkinfo_user', function (req, res) {
                 resultCode = 200;
             }
         }
-        let parkiu=[];
+        var parkiu=[];
         
         for (var i=0;i<result.length;i++)
         {
-        parkiu[i] = {
-            'parkname':result[i].parkname,
+            parkiu[i]={'parkname':result[i].parkname,
             'p_number':result[i].P_number,
-            'date':moment(result[i].date).format('YYYY-MM-DD HH:mm:ss')
+            'date':moment(result[i].date).format('YYYY-MM-DD HH:mm:ss')};
         }
-    }   
         res.json(
-            parkiu
-        );
+            {
+                parkiu
+            })
     })
 });
 
