@@ -34,7 +34,8 @@ app.post('/user/join', function (req, res) {
         var message = 'An error has occurred!';
 
         if (err) {
-            console.log(err);
+            resultCode = 111;
+            var message = 'Already subscribed id!';
         } else {
             resultCode = 200;
             message = 'successed sign up!';
@@ -46,6 +47,7 @@ app.post('/user/join', function (req, res) {
         });
     });
 });
+
 
 app.post('/user/login', function (req, res) {
     var userid = req.body.id;
@@ -64,7 +66,7 @@ app.post('/user/login', function (req, res) {
                 message = 'not existent id';
             } else if (userpassword !== result[0].password) {
                 resultCode = 204;
-                message = 'password is wrong'+userpassword+"앞유저패스워드 뒤 result머시기"+result[0].password;
+                message = 'password is wrong';
             } else {
                 resultCode = 200;
                 message = 'login successed welcome : ' + result[0].id;
