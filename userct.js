@@ -13,7 +13,7 @@ app.listen(3000, '0.0.0.0', function () {
 });
 
 var connection = mysql.createConnection({
-    host: "database-2.chpveeg6ishh.ap-northeast-2.rds.amazonaws.com",
+    host: "database-1.chpveeg6ishh.ap-northeast-2.rds.amazonaws.com",
     user: "admin",
     database: "userdb",
     password: "dkdlel12",
