@@ -183,6 +183,7 @@ app.post('/user/parkinfo_user', function (req, res) {
             'p_number':result[i].P_number,
             'date':moment(date).format('YYYY-MM-DD HH:mm:ss')};
         }
+        console.log(date);
         res.json(
             {
                 parkiu
