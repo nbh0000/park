@@ -158,13 +158,10 @@ app.post('/user/parkinglotspace', function (req, res) {
 
 app.post('/user/parkinfo_user', function (req, res) {
     var id=req.body.id;
-    var sql = 'select * from parkInfo where id = ?';
-    var moment = require('moment');
-    require('moment-timezone');
-    moment.tz.setDefault("Asia/Seoul");
-    
+    var date = req.body.date;
+    var sql = 'select * from parkInfo where id = ?';    
 
-    connection.query(sql, id, function (err, result) {
+    connection.query(sql, id,date, function (err, result) {
         var resultCode = 404;
         var message = 'An error has occurred';
         if (err) {
@@ -184,7 +181,7 @@ app.post('/user/parkinfo_user', function (req, res) {
         {
             parkiu[i]={'parkname':result[i].parkname,
             'p_number':result[i].P_number,
-            'date':moment(result[i].date).format('YYYY-MM-DD HH:mm:ss')};
+            'date':moment(date).format('YYYY-MM-DD HH:mm:ss')};
         }
         res.json(
             {
@@ -278,6 +275,7 @@ app.post('/user/save_parkinfo', function (req, res) {
     var parkname = req.body.parkname;
     var P_number = req.body.P_number;
     var parkempty,p;
+    
     var moment = require('moment');
     require('moment-timezone');
     moment.tz.setDefault("Asia/Seoul");
