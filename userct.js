@@ -179,12 +179,11 @@ app.post('/user/parkinfo_user', function (req, res) {
             }
         }
         var parkiu=[];
-        
         for (var i=0;i<result.length;i++)
         {
             parkiu[i]={'parkname':result[i].parkname,
             'p_number':result[i].P_number,
-            'date':moment(result[i].date).format('YYYY-MM-DD HH:mm:ss')};
+            'date':moment(result[i].date).subtract(9,"hours").format('YYYY-MM-DD HH:mm:ss')};
         }
         res.json(
             {
@@ -282,7 +281,7 @@ app.post('/user/save_parkinfo', function (req, res) {
     require('moment-timezone');
     moment.tz.setDefault("Asia/Seoul");
     var date = moment().format('YYYY-MM-DD HH:mm:ss');
-
+    
     sql =`UPDATE ParkingLotSpace SET Reserv=1 where parkname = ? and P_number=?`;
     params = [parkname,P_number];
     connection.query(sql, params, function (err, result) {
