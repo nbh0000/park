@@ -280,7 +280,7 @@ app.post('/user/save_parkinfo', function (req, res) {
     var moment = require('moment');
     require('moment-timezone');
     moment.tz.setDefault("Asia/Seoul");
-    var date = moment().format('YYYY-MM-DD HH:mm:ss');
+    var date = moment().subtract(9,"hours").format('YYYY-MM-DD HH:mm:ss');
     
     sql =`UPDATE ParkingLotSpace SET Reserv=1 where parkname = ? and P_number=?`;
     params = [parkname,P_number];
